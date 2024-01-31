@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const noteRouter = require("./controllers/notes");
+const userRouter = require("./controllers/users");
 const config = require("./utils/config");
 const logger = require("./utils/logger");
 const mongoose = require("mongoose");
@@ -20,7 +21,7 @@ app.use(requestLogger);
 app.get("/", (req, res) => {
   res.end("Welcome to application");
 });
-
+app.use("api/users", userRouter);
 app.use("/api/notes", noteRouter);
 
 app.use(errorHandler);

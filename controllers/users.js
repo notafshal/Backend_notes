@@ -7,3 +7,4 @@ userRouter.post("/register", (req, res, next) => {
 userRouter.post("/login", (req, res, next) => {
   res.end("Lets login");
 });
+module.exports = userRouter;
