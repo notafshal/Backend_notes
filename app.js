@@ -21,7 +21,7 @@ app.use(requestLogger);
 app.get("/", (req, res) => {
   res.end("Welcome to application");
 });
-app.use("api/users", userRouter);
+app.use("/api/users", userRouter);
 app.use("/api/notes", noteRouter);
 
 app.use(errorHandler);

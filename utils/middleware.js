@@ -19,6 +19,8 @@ const errorHandler = (error, req, res, next) => {
     res.status(400).send({ message: "send proper id" });
   } else if (error.name === "MongooseError") {
     res.status(400).send({ message: "Cannot connect to database" });
+  } else if (error.name === "ValidationError") {
+    res.status(400).send({ message: "Duplicate entry not allowed" });
   }
   next(error);
 };
