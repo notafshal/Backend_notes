@@ -9,6 +9,7 @@ const {
   requestLogger,
   unknownEndpoint,
   errorHandler,
+  tokenExtractor,
 } = require("./utils/middleware");
 mongoose.set("strictQuery", true);
 mongoose
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
   res.end("Welcome to application");
 });
 app.use("/api/users", userRouter);
+app.use(tokenExtractor);
 app.use("/api/notes", noteRouter);
 
 app.use(errorHandler);

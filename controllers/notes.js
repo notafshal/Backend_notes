@@ -2,6 +2,8 @@ const noteRouter = require("express").Router();
 const Note = require("../models/note");
 const User = require("../models/user");
 const logger = require("../utils/logger");
+const jwt = require("jsonwebtoken");
+
 noteRouter.get("/", (req, res) => {
   Note.find({}).then((notes) => {
     res.json(notes);
@@ -18,7 +20,8 @@ noteRouter.get("/:id", (req, res, next) => {
     })
     .catch((error) => next(error));
 });
-noteRouter.post("/", async (req, res) => {
+
+noteRouter.post("/", async (req, res, next) => {
   const { content, important } = req.body;
 
   if (content === undefined) {
@@ -30,9 +33,11 @@ noteRouter.post("/", async (req, res) => {
     const note = new Note({
       content: content,
       important: body.important === undefined ? false : body.important,
-      user: user.id,
+      user: user._id,
     });
-    const savedNote = await note.save();
+    const savedNote = await note.save().then((note) => {
+      res.json(note);
+    });
     user.notes = user.notes.concat(savedNote._id);
     await user.save();
     res.status(200).json({ user });
